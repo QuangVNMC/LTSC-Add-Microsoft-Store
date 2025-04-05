@@ -33,7 +33,7 @@ for /f %%i in ('dir /b *XboxIdentityProvider*.*bundle 2^>nul') do set "XboxIdent
 )
 
 if /i %arch%==x64 (
-set "DepStore=%VCLibsX64%,%VCLibsX86%,%VCLibsUWPX64%,"%VCLibsUWPX86%",%Framework16X86%,%Framework16X64%,%Runtime16X86%,%Runtime6X64%,%Framework6X64%,%Framework6X86%,%Runtime6X64%,%Runtime6X86%,%UIXamlX64%,%UIXamlX86%"
+set "DepStore=%VCLibsX64%,%VCLibsX86%,%VCLibsUWPX64%,"%VCLibsUWPX86%",%Framework16X86%,%Framework16X64%,%Runtime16X86%,%Runtime16X64%,%Framework6X64%,%Framework6X86%,%Runtime6X64%,%Runtime6X86%,%UIXamlX64%,%UIXamlX86%"
 set "DepPurchase=%VCLibsX64%,%VCLibsX86%,%Framework6X64%,%Framework6X86%,%Runtime6X64%,%Runtime6X86%"
 set "DepXbox=%VCLibsX64%,%VCLibsX86%,%Framework6X64%,%Framework6X86%,%Runtime6X64%,%Runtime6X86%"
 set "DepInstaller=%VCLibsX64%,%VCLibsX86%"

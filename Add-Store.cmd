@@ -10,6 +10,8 @@ if not exist "*WindowsStore*.*bundle" goto :nofiles
 for /f %%i in ('dir /b *WindowsStore*.*bundle 2^>nul') do set "Store=%%i"
 for /f %%i in ('dir /b *NET.Native.Framework*2.2*.* 2^>nul ^| find /i "x64"') do set "Framework6X64=%%i"
 for /f %%i in ('dir /b *NET.Native.Framework*2.2*.* 2^>nul ^| find /i "x86"') do set "Framework6X86=%%i"
+for /f %%i in ('dir /b *NET.Native.Framework*1.6*.* 2^>nul ^| find /i "x64"') do set "Framework7X64=%%i"
+for /f %%i in ('dir /b *NET.Native.Framework*1.6*.* 2^>nul ^| find /i "x86"') do set "Framework7X86=%%i"
 for /f %%i in ('dir /b *NET.Native.Runtime*2.2*.* 2^>nul ^| find /i "x64"') do set "Runtime6X64=%%i"
 for /f %%i in ('dir /b *NET.Native.Runtime*2.2*.* 2^>nul ^| find /i "x86"') do set "Runtime6X86=%%i"
 for /f %%i in ('dir /b *VCLibs*140*.* 2^>nul ^| find /i "x64"') do set "VCLibsX64=%%i"
@@ -28,12 +30,12 @@ for /f %%i in ('dir /b *XboxIdentityProvider*.*bundle 2^>nul') do set "XboxIdent
 )
 
 if /i %arch%==x64 (
-set "DepStore=%VCLibsX64%,%VCLibsX86%,%VCLibsUWPX64%,"%VCLibsUWPX86%",%Framework6X64%,%Framework6X86%,%Runtime6X64%,%Runtime6X86%,%UIXamlX64%,%UIXamlX86%"
+set "DepStore=%VCLibsX64%,%VCLibsX86%,%VCLibsUWPX64%,"%VCLibsUWPX86%",%Framework6X64%,%Framework6X86%,%Framework7X64%,%Framework7X86%,%Runtime6X64%,%Runtime6X86%,%UIXamlX64%,%UIXamlX86%"
 set "DepPurchase=%VCLibsX64%,%VCLibsX86%,%Framework6X64%,%Framework6X86%,%Runtime6X64%,%Runtime6X86%"
 set "DepXbox=%VCLibsX64%,%VCLibsX86%,%Framework6X64%,%Framework6X86%,%Runtime6X64%,%Runtime6X86%"
 set "DepInstaller=%VCLibsX64%,%VCLibsX86%"
 ) else (
-set "DepStore=%VCLibsX86%,"VCLibsUWPX86",%Framework6X86%,%Runtime6X86%,%UIXamlX86%"
+set "DepStore=%VCLibsX86%,"VCLibsUWPX86",%Framework6X86%,%Framework7X86%,%Runtime6X86%,%UIXamlX86%"
 set "DepPurchase=%VCLibsX86%,%Framework6X86%,%Runtime6X86%"
 set "DepXbox=%VCLibsX86%,%Framework6X86%,%Runtime6X86%"
 set "DepInstaller=%VCLibsX86%"

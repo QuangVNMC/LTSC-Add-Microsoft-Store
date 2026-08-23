@@ -364,7 +364,10 @@ try {
         # --- Step 3: Filter, Get URLs, and Download ---
         try {
             # Get the current system's processor architecture and map it to the script's naming convention
-            $systemArch = switch ($env:PROCESSOR_ARCHITECTURE) {
+            # Note: check PROCESSOR_ARCHITEW6432 first, otherwise a 32-bit PowerShell running on a 64-bit
+            #       OS (WOW64) reports 'x86' and would download x86 packages on an x64 system.
+            $rawArch = if ($env:PROCESSOR_ARCHITEW6432) { $env:PROCESSOR_ARCHITEW6432 } else { $env:PROCESSOR_ARCHITECTURE }
+            $systemArch = switch ($rawArch) {
                 "AMD64" { "x64" }
                 "ARM64" { "arm64" }
                 "x86"   { "x86" }
@@ -372,7 +375,7 @@ try {
             }
             
             if ($systemArch -eq "unknown") {
-                throw "Could not determine system architecture from '$($env:PROCESSOR_ARCHITECTURE)'."
+                throw "Could not determine system architecture from '$rawArch'."
             }
             Write-Host "Step 3: Filtering packages for your system architecture ('$systemArch')..." -ForegroundColor Magenta
 
@@ -385,7 +388,7 @@ try {
                 $candidates = $fileIdentityMap.Values | Where-Object { $_.PackageName -eq $appName }
 
                 # Compatibility check: HEVC Video Extensions 2.5.0.0+ require Windows 11 build 26200 or higher.
-                # On older builds (e.g. Windows 10), pick the newest version below that threshold instead.
+                # On older builds (e.g. Windows 10 or earlier Windows 11), pick the newest version below that threshold instead.
                 if ($appName -eq 'Microsoft.HEVCVideoExtension' -and $osBuildNumber -lt 26200) {
                     Write-Host "  -> OS build $osBuildNumber detected: limiting HEVC Video Extensions to versions below 2.5.0.0." -ForegroundColor Yellow
                     $candidates = $candidates | Where-Object { [version]$_.Version -lt [version]'2.5.0.0' }
